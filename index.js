@@ -25,11 +25,12 @@ app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 
 const corsOptions = {
-    origin:'https://job-seek-0ldo.onrender.com',
-    credentials:true
+    origin: ['https://job-seek-0ldo.onrender.com', 'https://job-seek-4nr2.onrender.com', 'http://localhost:3000'],
+    credentials: true
 }
 
-app.use(cors());
+app.use(cors(corsOptions));
+
 
 const PORT = process.env.PORT || 3000;
 
