@@ -7,14 +7,15 @@ import cloudinary from "../utils/cloudinary.js";
 export const register = async (req, res) => {
     try {
         const { fullname, email, phoneNumber, password, role } = req.body;
+        const file = req.file;
          
-        if (!fullname || !email || !phoneNumber || !password || !role) {
+        if (!fullname || !email || !phoneNumber || !password || !role || !file) {
             return res.status(400).json({
                 message: "Something is missing",
                 success: false
             });
         };
-        const file = req.file;
+
         const fileUri = getDataUri(file);
         const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
 
@@ -28,7 +29,7 @@ export const register = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         await User.create({
-            fullname,
+            fullname, 
             email,
             phoneNumber,
             password: hashedPassword,
@@ -92,7 +93,7 @@ export const login = async (req, res) => {
             profile: user.profile
         }
 
-        return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpsOnly: true, sameSite: 'strict' }).json({
+        return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'strict' }).json({
             message: `Welcome back ${user.fullname}`,
             user,
             success: true

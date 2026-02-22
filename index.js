@@ -21,8 +21,8 @@ const app = express();
 
 // middleware
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
-app.use(cookieParser());
+app.use(express.urlencoded({extended:true}));     //parses URL-encoded data sent in the body of HTTP requests.
+app.use(cookieParser());                            // parses cookies from the incoming HTTP request headers.
 
 const corsOptions = {
     origin: 'https://job-seek-q5od.onrender.com',
